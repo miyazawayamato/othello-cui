@@ -7,32 +7,50 @@ public class Main {
 		
 		game game = new game();
 		
-		game.testPrint();
+		int x = 0;
+		int y = 0;
 		
-		int num = 0;
+		int num = 1;
+		
+		//ボードの駒の数
+		int komaTotal = 4;
+		
 		
 		//ここで終了判定
-		while(num == 0) {
+		while(komaTotal < 10) {
 			
-			System.out.println("入力してください。");
-			
+			System.out.println("行を入力してください。");
 			Scanner sc1 = new Scanner(System.in);
-			String line1 = sc1.nextLine();
+			String gyou = sc1.nextLine();
+			y = Integer.parseInt(gyou);
 			
-			num = Integer.parseInt(line1);
+			System.out.println("列を入力してください。");
+			Scanner sc2 = new Scanner(System.in);
+			String retu = sc2.nextLine();
+			x = Integer.parseInt(retu);
 			
-			System.out.println("数は" + num);
+//			System.out.println(y +"-" + x);
+			
+			//メソッドの実行
+			game.turnOver(y - 1, x - 1, num);
 			
 			
+			if (num == 1) {
+				num = 2;
+			} else if (num == 2) {
+				num = 1;
+			}
+			
+			komaTotal++;
 			
 		}
 		
+		System.out.println("終");
+		
+		
 	}
 	
-	//コンソールから入力を確認
-	//値を変えるメソッドの実行
 	
-	//上下斜め8つの方向のパネルの確認
 	//交代のメソッド
 	
 	//スタートと終了のメソッド
