@@ -5,32 +5,84 @@ import java.util.List;
 public class game {
 	
 	
-	//[3][3],[4][4]は黒、[3][4],[4][3]は白
-	static private int[][] bored = new int[8][8];
+	static int[][] bored;
 	
+	static int white = 0;
+	static int black = 0;
 	
 	static private int colour = 0;
 	
+	//コンストラクタ
 	public game() {
 		
-		bored[3][3] = 2;
-		bored[4][4] = 2;
+		//初期配置。[3][3],[4][4]は白、[3][4],[4][3]は黒
+		bored = new int[8][8];
 		bored[3][4] = 1;
 		bored[4][3] = 1;
+		bored[3][3] = 2;
+		bored[4][4] = 2;
 		
 		showBoard();
 	}
 	
+	//ターン
+	public int turnOver(int y, int x, int num) {
+		
+		//裏返した駒の合計
+		int sumReverse = 0;
+		//自分の色（数字）のセット
+		colour = num;
+		
+		//置く場所が空なら
+		if (bored[y][x] == 0) {
+			
+			sumReverse += turnUp(y,x);
+			sumReverse += turnDown(y,x);
+			sumReverse += turnLeft(y,x);
+			sumReverse += turnRight(y,x);
+			sumReverse += turnRightUp(y,x);
+			sumReverse += turnRightDown(y,x);
+			sumReverse += turnLeftUp(y,x);
+			sumReverse += turnLeftDown(y,x);
+			
+		}
+		
+		showBoard();
+		
+		//どちらか一色になったら
+		if (white == 0 || black == 0) {
+			return -1;
+		}
+		
+		return sumReverse;
+		
+	}
 	
+	//結果
+	public void showResult() {
+		
+		showBoard();
+		
+		if (black < white) {
+			System.out.println("白の勝ち");
+		} else if (white < black) {
+			System.out.println("黒の勝ち");
+		} else {
+			System.out.println("引き分け");
+		}
+		
+	}
+	
+	//ボードの状況
 	static public void showBoard() {
 		
-		int white = 0;
-		int black = 0;
+		white = 0;
+		black = 0;
 		
+		//arrayListに数字と対応する駒を入れて表示と各色のカウント
 		for (int[] nums : bored) {
 			
 			ArrayList<String> list = new ArrayList<>();
-			
 			
 			for (int a : nums) {
 				if (a == 0) {
@@ -43,8 +95,8 @@ public class game {
 					white++;
 				}
 			}
+			
 			System.out.println(list);
-//			System.out.println(Arrays.toString(nums));
 			
 		}
 		
@@ -52,53 +104,33 @@ public class game {
 		System.out.println("白：" + white + "個");
 	}
 	
-	public int turnOver(int y, int x, int num) {
-		
-		//自分の色のセット
-		colour = num;
-		
-		//裏返せる駒の合計
-		int sumReverse = 0;
-		
-		sumReverse += turnUp(y,x);
-		sumReverse += turnDown(y,x);
-		sumReverse += turnLeft(y,x);
-		sumReverse += turnRight(y,x);
-		sumReverse += turnRightUp(y,x);
-		sumReverse += turnRightDown(y,x);
-		sumReverse += turnLeftUp(y,x);
-		sumReverse += turnLeftDown(y,x);
-		
-		showBoard();
-		
-		return sumReverse;
-		
-	}
 	
+	//以下それぞれの方向の裏返すメソッド
 	static public int turnUp(int y, int x) {
 		
+		//次のマスのインデックスへ
 		int targetY = y - 1;
-		
 		
 		//次のマス目が盤上にあるか
 		if(targetY < 0) {
 			return 0;
 		}
 		
-		//相手の駒である限りループ
+		//相手の駒である限りループ（空または自分の色でない）
 		while(bored[targetY][x] != 0 && bored[targetY][x] != colour) {
 			
+			//次のマスへ
 			targetY--;
 			
-			//盤外または空なら終了
-			if (targetY < 0 ) {
-				return 0;
+			//盤外なら終了
+			if(targetY < 0) {
+				break;
 			}
 			
-			//自分の駒なら
+			//自分の駒までたどり着いたら
 			if (bored[targetY][x] == colour) {
 				
-				//targetYがyになるまで回す
+				//置いた位置からたどり着いた自分の駒の分ループして色を変える
 				for (;targetY <= y; targetY++) {
 					
 					bored[targetY][x] = colour;
@@ -116,26 +148,21 @@ public class game {
 		
 		int targetY = y + 1;
 		
-		
-		//次のマス目が盤上にあるか
 		if(targetY > 7) {
 			return 0;
 		}
 		
-		//相手の駒である限りループ
 		while(bored[targetY][x] != 0 && bored[targetY][x] != colour) {
 			
 			targetY++;
 			
-			//盤外または空なら終了
+			
 			if (targetY > 7) {
-				return 0;
+				break;
 			}
 			
-			//自分の駒なら
 			if (bored[targetY][x] == colour) {
 				
-				//targetYがyになるまで回す
 				for (;targetY >= y; targetY--) {
 					
 					bored[targetY][x] = colour;
@@ -153,26 +180,20 @@ public class game {
 		
 		int targetX = x + 1;
 		
-		
-		//次のマス目が盤上にあるか
 		if(targetX > 7) {
 			return 0;
 		}
 		
-		//相手の駒である限りループ
 		while(bored[y][targetX] != 0 && bored[y][targetX] != colour) {
 			
 			targetX++;
 			
-			//盤外または空なら終了
 			if (targetX > 7) {
-				return 0;
+				break;
 			}
 			
-			//自分の駒なら
 			if (bored[y][targetX] == colour) {
 				
-				//targetYがyになるまで回す
 				for (;targetX >= x; targetX--) {
 					
 					bored[y][targetX] = colour;
@@ -192,25 +213,20 @@ public class game {
 		int targetX = x - 1;
 		
 		
-		//次のマス目が盤上にあるか
 		if(targetX < 0) {
 			return 0;
 		}
 		
-		//相手の駒である限りループ
 		while(bored[y][targetX] != 0 && bored[y][targetX] != colour) {
 			
 			targetX--;
 			
-			//盤外または空なら終了
 			if (targetX < 0 ) {
-				return 0;
+				break;
 			}
 			
-			//自分の駒なら
 			if (bored[y][targetX] == colour) {
 				
-				//targetYがyになるまで回す
 				for (;targetX <= x; targetX++) {
 					
 					bored[y][targetX] = colour;
@@ -230,26 +246,21 @@ public class game {
 		int targetX = x - 1;
 		int targetY = y - 1;
 		
-		//盤外または空なら終了
 		if (targetX < 0 || targetY < 0) {
 			return 0;
 		}
 		
-		//相手の駒である限りループ
 		while(bored[targetY][targetX] != 0 && bored[targetY][targetX] != colour) {
 			
 			targetX--;
 			targetY--;
 			
-			//盤外または空なら終了
-			if (targetX < 0 ) {
-				return 0;
+			if (targetX < 0 || targetY < 0) {
+				break;
 			}
 			
-			//自分の駒なら
 			if (bored[targetY][targetX] == colour) {
 				
-				//targetYがyになるまで回す
 				for (;targetX <= x; targetX++, targetY++) {
 					
 					bored[targetY][targetX] = colour;
@@ -268,26 +279,21 @@ public class game {
 		int targetX = x - 1;
 		int targetY = y + 1;
 		
-		//盤外または空なら終了
 		if (targetX < 0 || targetY > 7) {
 			return 0;
 		}
 		
-		//相手の駒である限りループ
 		while(bored[targetY][targetX] != 0 && bored[targetY][targetX] != colour) {
 			
 			targetX--;
 			targetY++;
 			
-			//盤外または空なら終了
-			if (targetX < 0 ) {
-				return 0;
+			if (targetX < 0 || targetY > 7) {
+				break;
 			}
 			
-			//自分の駒なら
 			if (bored[targetY][targetX] == colour) {
 				
-				//targetYがyになるまで回す
 				for (;targetX <= x; targetX++, targetY--) {
 					
 					bored[targetY][targetX] = colour;
@@ -308,26 +314,21 @@ public class game {
 		int targetX = x + 1;
 		
 		
-		//次のマス目が盤上にあるか
 		if(targetX > 7 || targetY < 0) {
 			return 0;
 		}
 		
-		//相手の駒である限りループ
 		while(bored[targetY][targetX] != 0 && bored[targetY][targetX] != colour) {
 			
 			targetX++;
 			targetY--;
 			
-			//盤外または空なら終了
-			if (targetX > 7 ) {
-				return 0;
+			if (targetX > 7 || targetY < 0) {
+				break;
 			}
 			
-			//自分の駒なら
 			if (bored[targetY][targetX] == colour) {
 				
-				//targetYがyになるまで回す
 				for (;targetX >= x; targetX--, targetY++) {
 					
 					bored[targetY][targetX] = colour;
@@ -346,27 +347,21 @@ public class game {
 		int targetX = x + 1;
 		int targetY = y + 1;
 		
-		
-		//次のマス目が盤上にあるか
 		if(targetX > 7 || targetY > 7 ) {
 			return 0;
 		}
 		
-		//相手の駒である限りループ
 		while(bored[targetY][targetX] != 0 && bored[targetY][targetX] != colour) {
 			
 			targetX++;
 			targetY++;
 			
-			//盤外または空なら終了
-			if (targetX > 7 ) {
-				return 0;
+			if (targetX > 7 || targetY > 7) {
+				break;
 			}
 			
-			//自分の駒なら
 			if (bored[targetY][targetX] == colour) {
 				
-				//targetYがyになるまで回す
 				for (;targetX >= x; targetX--, targetY--) {
 					
 					bored[targetY][targetX] = colour;
@@ -381,25 +376,3 @@ public class game {
 		
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
