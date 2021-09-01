@@ -1,7 +1,7 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Main {
+public class Othello {
 
 	public static void main(String[] args) {
 		// TODO 自動生成されたメソッド・スタブ
@@ -11,7 +11,7 @@ public class Main {
 		int x = 0;
 		int y = 0;
 		
-		//1なら黒、２なら白
+		//１なら黒、２なら白
 		int num = 1;
 		
 		//ボードの駒の数

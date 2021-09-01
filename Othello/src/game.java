@@ -1,22 +1,19 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class game {
 	
 	
-	static int[][] bored;
+	private int[][] bored = new int[8][8];
 	
-	static int white = 0;
-	static int black = 0;
+	private int white = 0;
+	private int black = 0;
 	
-	static private int colour = 0;
+	private int colour = 0;
 	
 	//コンストラクタ
 	public game() {
 		
 		//初期配置。[3][3],[4][4]は白、[3][4],[4][3]は黒
-		bored = new int[8][8];
 		bored[3][4] = 1;
 		bored[4][3] = 1;
 		bored[3][3] = 2;
@@ -74,7 +71,7 @@ public class game {
 	}
 	
 	//ボードの状況
-	static public void showBoard() {
+	public void showBoard() {
 		
 		white = 0;
 		black = 0;
@@ -106,7 +103,7 @@ public class game {
 	
 	
 	//以下それぞれの方向の裏返すメソッド
-	static public int turnUp(int y, int x) {
+	public int turnUp(int y, int x) {
 		
 		//次のマスのインデックスへ
 		int targetY = y - 1;
@@ -144,7 +141,7 @@ public class game {
 		return 0;
 		
 	}
-	static public int turnDown(int y, int x) {
+    public int turnDown(int y, int x) {
 		
 		int targetY = y + 1;
 		
@@ -176,7 +173,7 @@ public class game {
 		return 0;
 		
 	}
-	static public int turnRight(int y, int x) {
+	public int turnRight(int y, int x) {
 		
 		int targetX = x + 1;
 		
@@ -208,7 +205,7 @@ public class game {
 		
 	}
 	
-	static public int turnLeft(int y, int x) {
+	public int turnLeft(int y, int x) {
 		
 		int targetX = x - 1;
 		
@@ -241,7 +238,7 @@ public class game {
 		
 	}
 	
-	static public int turnLeftUp(int y, int x) {
+	public int turnLeftUp(int y, int x) {
 		
 		int targetX = x - 1;
 		int targetY = y - 1;
@@ -274,7 +271,7 @@ public class game {
 		return 0;
 		
 	}
-	static public int turnLeftDown(int y, int x) {
+	public int turnLeftDown(int y, int x) {
 		
 		int targetX = x - 1;
 		int targetY = y + 1;
@@ -308,7 +305,7 @@ public class game {
 		
 	}
 	
-	static public int turnRightUp(int y, int x) {
+	public int turnRightUp(int y, int x) {
 		
 		int targetY = y - 1;
 		int targetX = x + 1;
@@ -342,7 +339,7 @@ public class game {
 		return 0;
 		
 	}
-	static public int turnRightDown(int y, int x) {
+	public int turnRightDown(int y, int x) {
 		
 		int targetX = x + 1;
 		int targetY = y + 1;
