@@ -128,12 +128,16 @@ public class game {
 			if (bored[targetY][x] == colour) {
 				
 				//置いた位置からたどり着いた自分の駒の分ループして色を変える
-				for (;targetY <= y; targetY++) {
+				int count = 0;
+				
+				//置いた位置からたどり着いた自分の駒の分ループして色を変える
+				for (; targetY < y; y--) {
 					
-					bored[targetY][x] = colour;
-					
+//					(;y < targetY; y++)
+					bored[y][x] = colour;
+					count++;
 				}
-				return targetY -y;
+				return count - 1;
 			}
 			
 		}
@@ -160,12 +164,14 @@ public class game {
 			
 			if (bored[targetY][x] == colour) {
 				
-				for (;targetY >= y; targetY--) {
+				int count = 0;
+				
+				for (;y < targetY; y++) {
 					
-					bored[targetY][x] = colour;
-					
+					bored[y][x] = colour;
+					count++;
 				}
-				return y - targetY;
+				return count - 1;
 			}
 			
 		}
@@ -191,12 +197,14 @@ public class game {
 			
 			if (bored[y][targetX] == colour) {
 				
-				for (;targetX >= x; targetX--) {
+				int count = 0;
+				
+				for (;x < targetX; x++) {
 					
-					bored[y][targetX] = colour;
-					
+					bored[y][x] = colour;
+					count++;
 				}
-				return x - targetX;
+				return count - 1;
 			}
 			
 		}
@@ -224,12 +232,14 @@ public class game {
 			
 			if (bored[y][targetX] == colour) {
 				
-				for (;targetX <= x; targetX++) {
+				int count = 0;
+				
+				for (;targetX < x; x--) {
 					
-					bored[y][targetX] = colour;
-					
+					bored[y][x] = colour;
+					count++;
 				}
-				return targetX -x;
+				return count - 1;
 			}
 			
 		}
@@ -258,12 +268,14 @@ public class game {
 			
 			if (bored[targetY][targetX] == colour) {
 				
-				for (;targetX <= x; targetX++, targetY++) {
+				int count = 0;
+				
+				for (;targetX < x; x--, y--) {
 					
-					bored[targetY][targetX] = colour;
-					
+					bored[y][x] = colour;
+					count++;
 				}
-				return targetX -x;
+				return count - 1;
 			}
 			
 		}
@@ -291,12 +303,15 @@ public class game {
 			
 			if (bored[targetY][targetX] == colour) {
 				
-				for (;targetX <= x; targetX++, targetY--) {
+				int count = 0;
+				
+				for (;targetX < x; x--, y++) {
 					
-					bored[targetY][targetX] = colour;
-					
+					bored[y][x] = colour;
+					count++;
 				}
-				return targetX -x;
+				
+				return count - 1;
 			}
 			
 		}
@@ -326,12 +341,13 @@ public class game {
 			
 			if (bored[targetY][targetX] == colour) {
 				
-				for (;targetX >= x; targetX--, targetY++) {
+				int count = 0;
+				for (;x < targetX; x++, y--) {
 					
-					bored[targetY][targetX] = colour;
+					bored[y][x] = colour;
 					
 				}
-				return x - targetX;
+				return count - 1;
 			}
 			
 		}
@@ -359,12 +375,15 @@ public class game {
 			
 			if (bored[targetY][targetX] == colour) {
 				
-				for (;targetX >= x; targetX--, targetY--) {
+				int count = 0;
+				
+				for (;x < targetX; x++, y++) {
 					
-					bored[targetY][targetX] = colour;
-					
+					bored[y][x] = colour;
+					count++;
 				}
-				return x - targetX;
+				
+				return count - 1;
 			}
 			
 		}

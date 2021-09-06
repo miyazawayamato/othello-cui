@@ -60,6 +60,7 @@ public class Othello {
 				break;
 			}
 			
+			System.out.println("裏返した総数は" + sumReverse);
 			
 			//交代
 			if (num == 1) {
