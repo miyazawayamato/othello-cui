@@ -1,6 +1,12 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+//裏返しと個数のメソッドを分ける
+
+//入力まえのチェック→あればそこに置く
+
+//パスが先→CPU
+
 public class Othello {
 
 	public static void main(String[] args) {
@@ -50,13 +56,14 @@ public class Othello {
 		    
 			//メソッドの実行  裏返した駒の合計
 			int sumReverse = game.turnOver(y - 1, x - 1, num);
+			System.out.println("裏返した総数は" + sumReverse);
 			
 			//0なら裏返せてない＝無効な場所
 			//-1ならどちらかが一色になって決着
 			if (sumReverse == 0) {
 				System.out.println("有効な場所に置いてください");
 				continue;
-			} else if (sumReverse == -1) {
+			} else if (sumReverse == -100) {
 				break;
 			}
 			

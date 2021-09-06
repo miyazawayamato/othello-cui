@@ -127,13 +127,16 @@ public class game {
 			//自分の駒までたどり着いたら
 			if (bored[targetY][x] == colour) {
 				
+				int count = 0;
+				
 				//置いた位置からたどり着いた自分の駒の分ループして色を変える
-				for (;targetY <= y; targetY++) {
+				for (; targetY < y; y--) {
 					
-					bored[targetY][x] = colour;
-					
+//					(;y < targetY; y++)
+					bored[y][x] = colour;
+					count++;
 				}
-				return targetY -y;
+				return count - 1;
 			}
 			
 		}
@@ -160,12 +163,14 @@ public class game {
 			
 			if (bored[targetY][x] == colour) {
 				
-				for (;targetY >= y; targetY--) {
+				int count = 0;
+				
+				for (;y < targetY; y++) {
 					
-					bored[targetY][x] = colour;
-					
+					bored[y][x] = colour;
+					count++;
 				}
-				return y - targetY;
+				return count - 1;
 			}
 			
 		}
@@ -191,12 +196,19 @@ public class game {
 			
 			if (bored[y][targetX] == colour) {
 				
-				for (;targetX >= x; targetX--) {
+				int count = 0;
+				
+				for (;x < targetX; x++) {
 					
-					bored[y][targetX] = colour;
+					//元の位置   置いた位置
+					//43210   はさむ向かい側の駒 + 裏返した駒 + 置いた駒
 					
+					//したいこと
+					//0123
+					bored[y][x] = colour;
+					count++;
 				}
-				return x - targetX;
+				return count - 1;
 			}
 			
 		}
@@ -224,12 +236,14 @@ public class game {
 			
 			if (bored[y][targetX] == colour) {
 				
-				for (;targetX <= x; targetX++) {
+				int count = 0;
+				
+				for (;targetX < x; x--) {
 					
-					bored[y][targetX] = colour;
-					
+					bored[y][x] = colour;
+					count++;
 				}
-				return targetX -x;
+				return count - 1;
 			}
 			
 		}
@@ -258,12 +272,14 @@ public class game {
 			
 			if (bored[targetY][targetX] == colour) {
 				
-				for (;targetX <= x; targetX++, targetY++) {
+				int count = 0;
+				
+				for (;targetX < x; x--, y--) {
 					
-					bored[targetY][targetX] = colour;
-					
+					bored[y][x] = colour;
+					count++;
 				}
-				return targetX -x;
+				return count - 1;
 			}
 			
 		}
@@ -291,12 +307,15 @@ public class game {
 			
 			if (bored[targetY][targetX] == colour) {
 				
-				for (;targetX <= x; targetX++, targetY--) {
+				int count = 0;
+				
+				for (;targetX < x; x--, y++) {
 					
-					bored[targetY][targetX] = colour;
-					
+					bored[y][x] = colour;
+					count++;
 				}
-				return targetX -x;
+				
+				return count - 1;
 			}
 			
 		}
@@ -325,13 +344,13 @@ public class game {
 			}
 			
 			if (bored[targetY][targetX] == colour) {
-				
-				for (;targetX >= x; targetX--, targetY++) {
+				int count = 0;
+				for (;x < targetX; x++, y--) {
 					
-					bored[targetY][targetX] = colour;
+					bored[y][x] = colour;
 					
 				}
-				return x - targetX;
+				return count - 1;
 			}
 			
 		}
@@ -359,12 +378,17 @@ public class game {
 			
 			if (bored[targetY][targetX] == colour) {
 				
-				for (;targetX >= x; targetX--, targetY--) {
+				int count = 0;
+				
+				//1ツ足りない
+				for (;x < targetX; x++, y++) {
 					
-					bored[targetY][targetX] = colour;
-					
+					bored[y][x] = colour;
+					count++;
 				}
-				return x - targetX;
+				
+				System.out.println(count);
+				return count - 1;
 			}
 			
 		}
