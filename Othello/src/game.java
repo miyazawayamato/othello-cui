@@ -26,6 +26,7 @@ public class game {
 	//裏返しの個数チェック
 	public int checkReverse(int y, int x, int num) {
 		
+		ArrayList<int[]> sumKoma = new ArrayList<int[]>();
 		colour = num;
 		
 		//裏返した駒の合計
@@ -34,10 +35,12 @@ public class game {
 		//置く場所が空なら
 		if (bored[y][x] == 0) {
 			
-			sumReverse = sumTurnOver(y, x).size();
+//			sumReverse = sumTurnOver(y, x).size();
+			sumKoma = sumTurnOver(y, x);
+			sumReverse = sumKoma.size();
+//			System.out.println(sumKoma);
 			
-		}
-		System.out.println(1);;
+		};
 		return sumReverse;
 	}
 	
@@ -53,6 +56,7 @@ public class game {
 		ArrayList<int[]> sumKoma = new ArrayList<int[]>();
 		
 		sumKoma = sumTurnOver(y, x);
+		
 		int[] put = {y, x};
 		sumKoma.add(put);
 		turn(sumKoma);
@@ -115,19 +119,27 @@ public class game {
 		System.out.println("白：" + white + "個");
 	}
 	
-	//裏返しマスの合計メソッドの実行
+	//裏返しマスの全方向確認メソッドの実行
 	public ArrayList<int[]> sumTurnOver(int y, int x) {
 		
 		ArrayList<int[]> sumKoma = new ArrayList<int[]>();
 		
 		sumKoma.addAll(turnUp(y,x));
+		System.out.println(sumKoma);
 		sumKoma.addAll(turnDown(y,x));
+		System.out.println(sumKoma);
 		sumKoma.addAll(turnRight(y,x));
+		System.out.println(sumKoma);
 		sumKoma.addAll(turnLeft(y,x));
+		System.out.println(sumKoma);
 		sumKoma.addAll(turnRightUp(y,x));
+		System.out.println(sumKoma);
 		sumKoma.addAll(turnRightDown(y,x));
+		System.out.println(sumKoma);
 		sumKoma.addAll(turnLeftUp(y,x));
+		System.out.println(sumKoma);
 		sumKoma.addAll(turnLeftDown(y,x));
+		System.out.println(sumKoma);
 		
 		int[] put = {y, x};
 		for (int i = 0; i < sumKoma.size(); i++) {
@@ -410,6 +422,7 @@ public class game {
 		return reverseKoma;
 		
 	}
+	
 	public ArrayList<int[]> turnRightDown(int y, int x) {
 		
 		ArrayList<int[]> reverseKoma = new ArrayList<int[]>();
@@ -430,9 +443,9 @@ public class game {
 				break;
 			}
 			
+			
 			if (bored[targetY][targetX] == colour) {
 				
-				//1ツ足りない
 				for (;x < targetX; x++, y++) {
 
 					int[] komaList = {y, x};
