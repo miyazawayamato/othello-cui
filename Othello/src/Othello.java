@@ -1,7 +1,8 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-//裏返しと個数のメソッドを分ける
+//カウントメソッド
+//
 
 //入力まえのチェック→あればそこに置く
 
@@ -28,6 +29,7 @@ public class Othello {
 		//ここで終了判定
 		while(komaTotal < 64) {
 			
+			
 			//整数入力、それ以外の場合の例外
 		    try{
 		    	
@@ -53,19 +55,21 @@ public class Othello {
 		    	continue;
 		    }
 		    
-		    
-			//メソッドの実行  裏返した駒の合計
-			int sumReverse = game.turnOver(y - 1, x - 1, num);
-			System.out.println("裏返した総数は" + sumReverse);
+			int sumReverse = game.checkReverse(y - 1, x - 1, num);
 			
-			//0なら裏返せてない＝無効な場所
-			//-1ならどちらかが一色になって決着
 			if (sumReverse == 0) {
 				System.out.println("有効な場所に置いてください");
 				continue;
-			} else if (sumReverse == -100) {
+			}
+			
+			//裏返し
+			int gameOver = game.turnOver(y - 1, x - 1, num);
+			
+			// 全部一色になった時
+			if (gameOver == -1) {
 				break;
 			}
+			
 			
 			
 			//交代

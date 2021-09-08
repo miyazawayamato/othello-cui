@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class game {
 	
@@ -22,6 +23,25 @@ public class game {
 		showBoard();
 	}
 	
+	//裏返しの個数チェック
+	public int checkReverse(int y, int x, int num) {
+		
+		colour = num;
+		
+		//裏返した駒の合計
+		int sumReverse = 0;
+		
+		//置く場所が空なら
+		if (bored[y][x] == 0) {
+			
+			sumReverse = sumTurnOver(y, x).size();
+			
+		}
+		System.out.println(1);;
+		return sumReverse;
+	}
+	
+	
 	//ターン
 	public int turnOver(int y, int x, int num) {
 		
@@ -30,19 +50,13 @@ public class game {
 		//自分の色（数字）のセット
 		colour = num;
 		
-		//置く場所が空なら
-		if (bored[y][x] == 0) {
-			
-			sumReverse += turnUp(y,x);
-			sumReverse += turnDown(y,x);
-			sumReverse += turnLeft(y,x);
-			sumReverse += turnRight(y,x);
-			sumReverse += turnRightUp(y,x);
-			sumReverse += turnRightDown(y,x);
-			sumReverse += turnLeftUp(y,x);
-			sumReverse += turnLeftDown(y,x);
-			
-		}
+		ArrayList<int[]> sumKoma = new ArrayList<int[]>();
+		
+		sumKoma = sumTurnOver(y, x);
+		int[] put = {y, x};
+		sumKoma.add(put);
+		turn(sumKoma);
+		
 		
 		showBoard();
 		
@@ -101,16 +115,53 @@ public class game {
 		System.out.println("白：" + white + "個");
 	}
 	
+	//裏返しマスの合計メソッドの実行
+	public ArrayList<int[]> sumTurnOver(int y, int x) {
+		
+		ArrayList<int[]> sumKoma = new ArrayList<int[]>();
+		
+		sumKoma.addAll(turnUp(y,x));
+		sumKoma.addAll(turnDown(y,x));
+		sumKoma.addAll(turnRight(y,x));
+		sumKoma.addAll(turnLeft(y,x));
+		sumKoma.addAll(turnRightUp(y,x));
+		sumKoma.addAll(turnRightDown(y,x));
+		sumKoma.addAll(turnLeftUp(y,x));
+		sumKoma.addAll(turnLeftDown(y,x));
+		
+		int[] put = {y, x};
+		for (int i = 0; i < sumKoma.size(); i++) {
+			if (Arrays.equals(sumKoma.get(i), put)) {
+				sumKoma.remove(i);
+			}
+		}
+		
+		return sumKoma;
+		
+	}
+	
+	//裏返し
+	public void turn(ArrayList<int[]> sumKoma) {
+		
+		for (int[] k: sumKoma) {
+			bored[k[0]][k[1]] = colour;
+		}
+		
+	}
+	
+	
 	
 	//以下それぞれの方向の裏返すメソッド
-	public int turnUp(int y, int x) {
+	public ArrayList<int[]> turnUp(int y, int x) {
+		
+		ArrayList<int[]> reverseKoma = new ArrayList<int[]>();
 		
 		//次のマスのインデックスへ
 		int targetY = y - 1;
 		
 		//次のマス目が盤上にあるか
 		if(targetY < 0) {
-			return 0;
+			return reverseKoma;
 		}
 		
 		//相手の駒である限りループ（空または自分の色でない）
@@ -127,29 +178,30 @@ public class game {
 			//自分の駒までたどり着いたら
 			if (bored[targetY][x] == colour) {
 				
-				int count = 0;
-				
 				//置いた位置からたどり着いた自分の駒の分ループして色を変える
 				for (; targetY < y; y--) {
 					
-//					(;y < targetY; y++)
-					bored[y][x] = colour;
-					count++;
+					int[] komaList = {y, x};
+					reverseKoma.add(komaList);
+					
 				}
-				return count - 1;
+				
+				return reverseKoma;
 			}
 			
 		}
 		
-		return 0;
+		return reverseKoma;
 		
 	}
-    public int turnDown(int y, int x) {
+    public ArrayList<int[]> turnDown(int y, int x) {
 		
+    	ArrayList<int[]> reverseKoma = new ArrayList<int[]>();
+    	
 		int targetY = y + 1;
 		
 		if(targetY > 7) {
-			return 0;
+			return reverseKoma;
 		}
 		
 		while(bored[targetY][x] != 0 && bored[targetY][x] != colour) {
@@ -163,27 +215,29 @@ public class game {
 			
 			if (bored[targetY][x] == colour) {
 				
-				int count = 0;
 				
 				for (;y < targetY; y++) {
 					
-					bored[y][x] = colour;
-					count++;
+					int[] komaList = {y, x};
+					reverseKoma.add(komaList);
+					
 				}
-				return count - 1;
+				return reverseKoma;
 			}
 			
 		}
 		
-		return 0;
+		return reverseKoma;
 		
 	}
-	public int turnRight(int y, int x) {
+	public ArrayList<int[]> turnRight(int y, int x) {
+		
+		ArrayList<int[]> reverseKoma = new ArrayList<int[]>();
 		
 		int targetX = x + 1;
 		
 		if(targetX > 7) {
-			return 0;
+			return reverseKoma;
 		}
 		
 		while(bored[y][targetX] != 0 && bored[y][targetX] != colour) {
@@ -196,34 +250,28 @@ public class game {
 			
 			if (bored[y][targetX] == colour) {
 				
-				int count = 0;
-				
 				for (;x < targetX; x++) {
 					
-					//元の位置   置いた位置
-					//43210   はさむ向かい側の駒 + 裏返した駒 + 置いた駒
-					
-					//したいこと
-					//0123
-					bored[y][x] = colour;
-					count++;
+					int[] komaList = {y, x};
+					reverseKoma.add(komaList);
 				}
-				return count - 1;
+				return reverseKoma;
 			}
 			
 		}
 		
-		return 0;
+		return reverseKoma;
 		
 	}
 	
-	public int turnLeft(int y, int x) {
+	public ArrayList<int[]> turnLeft(int y, int x) {
 		
 		int targetX = x - 1;
 		
+		ArrayList<int[]> reverseKoma = new ArrayList<int[]>();
 		
 		if(targetX < 0) {
-			return 0;
+			return reverseKoma;
 		}
 		
 		while(bored[y][targetX] != 0 && bored[y][targetX] != colour) {
@@ -236,29 +284,29 @@ public class game {
 			
 			if (bored[y][targetX] == colour) {
 				
-				int count = 0;
-				
 				for (;targetX < x; x--) {
 					
-					bored[y][x] = colour;
-					count++;
+					int[] komaList = {y, x};
+					reverseKoma.add(komaList);
 				}
-				return count - 1;
+				return reverseKoma;
 			}
 			
 		}
 		
-		return 0;
+		return reverseKoma;
 		
 	}
 	
-	public int turnLeftUp(int y, int x) {
+	public ArrayList<int[]> turnLeftUp(int y, int x) {
+		
+		ArrayList<int[]> reverseKoma = new ArrayList<int[]>();
 		
 		int targetX = x - 1;
 		int targetY = y - 1;
 		
 		if (targetX < 0 || targetY < 0) {
-			return 0;
+			return reverseKoma;
 		}
 		
 		while(bored[targetY][targetX] != 0 && bored[targetY][targetX] != colour) {
@@ -272,28 +320,30 @@ public class game {
 			
 			if (bored[targetY][targetX] == colour) {
 				
-				int count = 0;
+				
 				
 				for (;targetX < x; x--, y--) {
-					
-					bored[y][x] = colour;
-					count++;
+
+					int[] komaList = {y, x};
+					reverseKoma.add(komaList);
 				}
-				return count - 1;
+				return reverseKoma;
 			}
 			
 		}
 		
-		return 0;
+		return reverseKoma;
 		
 	}
-	public int turnLeftDown(int y, int x) {
+	public ArrayList<int[]> turnLeftDown(int y, int x) {
+		
+		ArrayList<int[]> reverseKoma = new ArrayList<int[]>();
 		
 		int targetX = x - 1;
 		int targetY = y + 1;
 		
 		if (targetX < 0 || targetY > 7) {
-			return 0;
+			return reverseKoma;
 		}
 		
 		while(bored[targetY][targetX] != 0 && bored[targetY][targetX] != colour) {
@@ -307,31 +357,33 @@ public class game {
 			
 			if (bored[targetY][targetX] == colour) {
 				
-				int count = 0;
+				
 				
 				for (;targetX < x; x--, y++) {
-					
-					bored[y][x] = colour;
-					count++;
+
+					int[] komaList = {y, x};
+					reverseKoma.add(komaList);
 				}
 				
-				return count - 1;
+				return reverseKoma;
 			}
 			
 		}
 		
-		return 0;
+		return reverseKoma;
 		
 	}
 	
-	public int turnRightUp(int y, int x) {
+	public ArrayList<int[]> turnRightUp(int y, int x) {
+		
+		ArrayList<int[]> reverseKoma = new ArrayList<int[]>();
 		
 		int targetY = y - 1;
 		int targetX = x + 1;
 		
 		
 		if(targetX > 7 || targetY < 0) {
-			return 0;
+			return reverseKoma;
 		}
 		
 		while(bored[targetY][targetX] != 0 && bored[targetY][targetX] != colour) {
@@ -344,27 +396,29 @@ public class game {
 			}
 			
 			if (bored[targetY][targetX] == colour) {
-				int count = 0;
+				
 				for (;x < targetX; x++, y--) {
-					
-					bored[y][x] = colour;
-					
+
+					int[] komaList = {y, x};
+					reverseKoma.add(komaList);
 				}
-				return count - 1;
+				return reverseKoma;
 			}
 			
 		}
 		
-		return 0;
+		return reverseKoma;
 		
 	}
-	public int turnRightDown(int y, int x) {
+	public ArrayList<int[]> turnRightDown(int y, int x) {
+		
+		ArrayList<int[]> reverseKoma = new ArrayList<int[]>();
 		
 		int targetX = x + 1;
 		int targetY = y + 1;
 		
 		if(targetX > 7 || targetY > 7 ) {
-			return 0;
+			return reverseKoma;
 		}
 		
 		while(bored[targetY][targetX] != 0 && bored[targetY][targetX] != colour) {
@@ -378,22 +432,19 @@ public class game {
 			
 			if (bored[targetY][targetX] == colour) {
 				
-				int count = 0;
-				
 				//1ツ足りない
 				for (;x < targetX; x++, y++) {
-					
-					bored[y][x] = colour;
-					count++;
+
+					int[] komaList = {y, x};
+					reverseKoma.add(komaList);
 				}
 				
-				System.out.println(count);
-				return count - 1;
+				return reverseKoma;
 			}
 			
 		}
 		
-		return 0;
+		return reverseKoma;
 		
 	}
 }
