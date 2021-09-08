@@ -68,13 +68,13 @@ public class Othello {
 				//ここで総調べ→該当したらすぐに
 				LABEL1:{
 					
-					for (x = 0; x < 8; x++) {
+					for (x = 1; x < 9; x++) {
 						
-						for (y = 0; y < 8; y++) {
+						for (y = 1; y < 9; y++) {
 							
-							sumReverse = game.checkReverse(y, x, num);
+							sumReverse = game.checkReverse(y - 1, x - 1, num);
 							
-							System.out.println(y + "と" + x + "の返り値が" + sumReverse);
+//							System.out.println(y + "と" + x + "の返り値が" + sumReverse);
 							
 							//ここでやっと裏返しメソッド
 							if (sumReverse > 0) {

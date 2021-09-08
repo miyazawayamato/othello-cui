@@ -125,21 +125,21 @@ public class game {
 		ArrayList<int[]> sumKoma = new ArrayList<int[]>();
 		
 		sumKoma.addAll(turnUp(y,x));
-		System.out.println(sumKoma);
+//		System.out.println(sumKoma);
 		sumKoma.addAll(turnDown(y,x));
-		System.out.println(sumKoma);
+//		System.out.println(sumKoma);
 		sumKoma.addAll(turnRight(y,x));
-		System.out.println(sumKoma);
+//		System.out.println(sumKoma);
 		sumKoma.addAll(turnLeft(y,x));
-		System.out.println(sumKoma);
+//		System.out.println(sumKoma);
 		sumKoma.addAll(turnRightUp(y,x));
-		System.out.println(sumKoma);
+//		System.out.println(sumKoma);
 		sumKoma.addAll(turnRightDown(y,x));
-		System.out.println(sumKoma);
+//		System.out.println(sumKoma);
 		sumKoma.addAll(turnLeftUp(y,x));
-		System.out.println(sumKoma);
+//		System.out.println(sumKoma);
 		sumKoma.addAll(turnLeftDown(y,x));
-		System.out.println(sumKoma);
+//		System.out.println(sumKoma);
 		
 		int[] put = {y, x};
 		for (int i = 0; i < sumKoma.size(); i++) {
