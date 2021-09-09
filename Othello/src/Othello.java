@@ -1,10 +1,8 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-
-//置ける場所があるかの調べ
-
-//パスが先→CPU
+//パスメソッド
+//cpuの強さ
 
 public class Othello {
 
@@ -28,6 +26,10 @@ public class Othello {
 		
 		//ここで終了判定
 		while(komaTotal < 64) {
+			
+			//パスチェックメソッド
+			//ループして、置けるマスの個数を確認
+			//交代する→持ち駒の個数カウント
 			
 			if (num == 1) {
 				
@@ -73,8 +75,6 @@ public class Othello {
 						for (y = 1; y < 9; y++) {
 							
 							sumReverse = game.checkReverse(y - 1, x - 1, num);
-							
-//							System.out.println(y + "と" + x + "の返り値が" + sumReverse);
 							
 							//ここでやっと裏返しメソッド
 							if (sumReverse > 0) {
