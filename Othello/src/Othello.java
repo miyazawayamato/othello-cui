@@ -20,6 +20,7 @@ public class Othello {
 		//ボードの駒の数
 		int komaTotal = 4;
 		
+		//裏返せる駒
 		int sumReverse = 0;
 		
 		Scanner sc = new Scanner(System.in);
@@ -27,10 +28,7 @@ public class Othello {
 		//ここで終了判定
 		while(komaTotal < 64) {
 			
-			//パスチェックメソッド
-			//ループして、置けるマスの個数を確認
-			//交代する→持ち駒の個数カウント
-			
+			//1（黒）は自分のターン
 			if (num == 1) {
 				
 				//整数入力、それ以外の場合の例外
@@ -58,16 +56,19 @@ public class Othello {
 					continue;
 				}
 				
+				//指定した位置が置けるかのチェック
 				sumReverse = game.checkReverse(y - 1, x - 1, num);
 				
+				//0なら不可
 				if (sumReverse == 0) {
 					System.out.println("有効な場所に置いてください");
 					continue;
 				}
 				
+			//2（白）はCPUのターン
 			} else if (num ==2) {
 				
-				//ここで総調べ→該当したらすぐに
+				//はじからループして該当する（１以上が返る）まで
 				LABEL1:{
 					
 					for (x = 1; x < 9; x++) {
@@ -76,9 +77,10 @@ public class Othello {
 							
 							sumReverse = game.checkReverse(y - 1, x - 1, num);
 							
-							//ここでやっと裏返しメソッド
+							//１マス以上で
 							if (sumReverse > 0) {
 								
+								//ラベルで２重ループを抜ける
 								break LABEL1;
 								
 							}
@@ -92,6 +94,7 @@ public class Othello {
 			
 			//裏返し
 			int gameOver = game.turnOver(y - 1, x - 1, num);
+			
 			
 			// 全部一色になった時
 			if (gameOver == -1) {
